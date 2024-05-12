@@ -2,10 +2,15 @@
     <div id="nav">
         <router-link to="/"> Home </router-link>
         <router-link to="/dashboard"> Dashboard </router-link>
+        <router-link to="/login" class="button" v-if="!store.isLoggedIn"> Login </router-link>
     </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { useAuthStore } from '@/stores/auth';
+
+const store = useAuthStore();
+</script>
 
 <style scoped>
 #nav {
