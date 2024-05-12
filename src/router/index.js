@@ -15,7 +15,10 @@ const router = createRouter({
         {
             path: '/dashboard',
             name: 'dashboard',
-            component: Dashboard
+            component: Dashboard,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/register',
@@ -28,6 +31,16 @@ const router = createRouter({
             component: LoginUser
         }
     ]
+});
+
+router.beforeEach((to, from, next) => {
+    const isLoggedIn = localStorage.getItem('user');
+
+    if (to.matched.some((record) => record.meta.requiresAuth) && !isLoggedIn) {
+        return next('/');
+    }
+
+    return next();
 });
 
 export default router;

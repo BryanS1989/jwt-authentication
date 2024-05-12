@@ -1,8 +1,9 @@
 <template>
     <div id="nav">
         <router-link to="/"> Home </router-link>
-        <router-link to="/dashboard"> Dashboard </router-link>
-        <router-link to="/login" class="button" v-if="!store.isLoggedIn"> Login </router-link>
+        <router-link v-if="store.isLoggedIn" to="/dashboard"> Dashboard </router-link>
+        <router-link v-if="!store.isLoggedIn" to="/login" class="button"> Login </router-link>
+        <button v-else type="button" class="logoutButton" @click="logout">Logout</button>
     </div>
 </template>
 
@@ -10,6 +11,11 @@
 import { useAuthStore } from '@/stores/auth';
 
 const store = useAuthStore();
+
+const logout = () => {
+    console.log('Logout');
+    store.logout();
+};
 </script>
 
 <style scoped>

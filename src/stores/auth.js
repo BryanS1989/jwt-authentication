@@ -37,5 +37,10 @@ export const useAuthStore = defineStore('auth', () => {
             });
     }
 
-    return { user, isLoggedIn, register, login };
+    function logout() {
+        localStorage.removeItem('user');
+        location.reload();
+    }
+
+    return { user, isLoggedIn, register, login, logout };
 });
