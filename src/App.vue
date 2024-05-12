@@ -1,6 +1,32 @@
 <script setup>
+import { onBeforeMount } from 'vue';
 import { RouterView } from 'vue-router';
+import { useAuthStore } from '@/stores/auth';
+import axios from 'axios';
+
 import AppNav from '@/components/AppNav.vue';
+
+const store = useAuthStore();
+
+onBeforeMount(() => {
+    const userString = localStorage.getItem('user');
+
+    if (userString) {
+        const userData = JSON.parse(userString);
+
+        store.setUserData(userData);
+    }
+
+    axios.interceptors.response.use(
+        (response) => response,
+        (error) => {
+            if (error.response.status === 401) {
+                store.logout();
+            }
+            return Promise.reject(error);
+        }
+    );
+});
 </script>
 
 <template>

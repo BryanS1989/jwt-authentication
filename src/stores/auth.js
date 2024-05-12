@@ -15,10 +15,7 @@ export const useAuthStore = defineStore('auth', () => {
             })
             .then(({ data }) => {
                 console.log(data);
-                user.value = data;
-                localStorage.setItem('user', JSON.stringify(data));
-
-                axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+                setUserData(data);
             });
     }
 
@@ -30,10 +27,7 @@ export const useAuthStore = defineStore('auth', () => {
             })
             .then(({ data }) => {
                 console.log(data);
-                user.value = data;
-                localStorage.setItem('user', JSON.stringify(data));
-
-                axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+                setUserData(data);
             });
     }
 
@@ -42,5 +36,12 @@ export const useAuthStore = defineStore('auth', () => {
         location.reload();
     }
 
-    return { user, isLoggedIn, register, login, logout };
+    function setUserData(data) {
+        user.value = data;
+        localStorage.setItem('user', JSON.stringify(data));
+
+        axios.defaults.headers.common['Authorization'] = `Bearer ${data.token}`;
+    }
+
+    return { user, isLoggedIn, register, login, logout, setUserData };
 });
